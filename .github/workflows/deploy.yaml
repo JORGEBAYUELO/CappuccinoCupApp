@@ -44,8 +44,10 @@ jobs:
             echo "Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
-            echo "Restarting container using systemd..."
-            sudo systemctl restart react-app
+            echo "Starting new container..."
+            docker run -d --name react-app -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
-            echo "Checking service status..."
-            sudo systemctl status react-app --no-pager
+            echo "Checking container status..."
+            docker ps
+
+            echo "Deployment completed successfully!"
