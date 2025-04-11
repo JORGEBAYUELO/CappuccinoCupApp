@@ -31,12 +31,16 @@ jobs:
 
       # 5. Deploy to EC2 via SSH
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            echo "Stopping and removing existing container..."
+            docker stop react-app || true
+            docker rm react-app || true
+
             echo "Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
