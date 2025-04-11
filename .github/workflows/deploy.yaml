@@ -30,33 +30,35 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
       # 5. Deploy to EC2 via SSH
-      - name: Deploy to EC2
+      - name: Deploy to EC2 (debugging)
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "Stopping and removing existing container..."
-            docker stop react-app || true
-            docker rm react-app || true
+            echo "✅ Connected to EC2!"
+            echo "📦 Docker version:"
+            docker --version || echo "Docker not installed"
 
-            echo "Pulling latest Docker image..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
 
-            echo "Starting new container..."
-            docker run -d --name react-app -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+            echo "👤 Current user:"
+            whoami
 
-            echo "Checking container status..."
-            docker ps
+            echo "🔧 Docker permissions:"
+            docker ps || echo "You might need sudo to run Docker"
 
-            echo "Deployment completed successfully!"
+            echo "🧹 Cleaning up any old containers..."
+            sudo docker stop react-app || true
+            sudo docker rm react-app || true
 
-      - name: Debug SSH connection
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            echo "Successfully connected to EC2!"
+            echo "📥 Pulling latest image..."
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+
+            echo "🚀 Starting new container..."
+            sudo docker run -d --name react-app -p 3000:80 ${{ secrets.DOCKER_USERNAME }}/react-app:latest
+
+            echo "📊 Running containers:"
+            sudo docker ps
+
+            echo "🎉 Deployment script finished"
