@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Coffee, Droplet, Milk, Scale } from 'lucide-react';
+import React, { useState } from "react";
+import { Coffee, Droplet, Milk, Scale } from "lucide-react";
 
-type RoastLevel = 'Light' | 'Medium' | 'Medium-Dark' | 'Dark' | 'Italian';
-type Unit = 'ml' | 'g';
+type RoastLevel = "Light" | "Medium" | "Medium-Dark" | "Dark" | "Italian";
+type Unit = "ml" | "g";
 
 interface Calculations {
   water: number;
@@ -11,45 +11,47 @@ interface Calculations {
 
 function App() {
   const [beanWeight, setBeanWeight] = useState<number>(18);
-  const [roastLevel, setRoastLevel] = useState<RoastLevel>('Medium');
+  const [roastLevel, setRoastLevel] = useState<RoastLevel>("Medium");
   const [ratio, setRatio] = useState<number>(2); // Default 1:2 ratio
-  const [unit, setUnit] = useState<Unit>('ml');
+  const [unit, setUnit] = useState<Unit>("ml");
 
   const calculateQuantities = (): Calculations => {
     // Calculate espresso yield in grams
     const espressoYield = beanWeight * ratio;
     // Calculate milk amount in grams (2.5x the espresso yield)
     const milkWeight = espressoYield * 2.5;
-    
+
     // Convert to ml if needed (using density ratios)
     // Water/espresso: 1 g/ml
     // Milk: 1.03 g/ml
     return {
-      water: unit === 'ml' ? espressoYield : espressoYield,
-      milk: unit === 'ml' ? milkWeight / 1.03 : milkWeight
+      water: unit === "ml" ? espressoYield : espressoYield,
+      milk: unit === "ml" ? milkWeight / 1.03 : milkWeight,
     };
   };
 
   const quantities = calculateQuantities();
 
   const brewingSteps = [
-    'Grind your coffee beans to a fine espresso grind',
-    'Heat your machine and portafilter',
+    "Grind your coffee beans to a fine espresso grind",
+    "Heat your machine and portafilter",
     `Add ${beanWeight}g of ground coffee to the portafilter`,
-    'Tamp the grounds evenly with about 30 pounds of pressure',
+    "Tamp the grounds evenly with about 30 pounds of pressure",
     `Extract ${quantities.water.toFixed(1)}${unit} of espresso (25-30 seconds)`,
-    'While extracting, steam your milk',
+    "While extracting, steam your milk",
     `Pour ${quantities.milk.toFixed(1)}${unit} cold milk into a pitcher`,
-    'Steam until silky microfoam forms (60-65°C)',
-    'Combine espresso and steamed milk with a 1cm layer of foam'
+    "Steam until silky microfoam forms (60-65°C)",
+    "Combine espresso and steamed milk with a 1cm layer of foam",
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-6">
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-brown-900 mb-2">Cappuccino Calculator</h1>
-          <p className="text-brown-600">Perfect ratios for the perfect cup</p>
+          <h1 className="text-4xl font-bold text-brown-900 mb-2">
+            Cappuccino Calculator
+          </h1>
+          <p className="text-brown-600">Enjoy your perfect cappuccino</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-xl p-6 space-y-6">
@@ -64,7 +66,9 @@ function App() {
                 <input
                   type="number"
                   value={beanWeight}
-                  onChange={(e) => setBeanWeight(Math.max(1, Number(e.target.value)))}
+                  onChange={(e) =>
+                    setBeanWeight(Math.max(1, Number(e.target.value)))
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                   min="1"
                 />
@@ -131,11 +135,17 @@ function App() {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center space-x-2">
                 <Droplet className="w-5 h-5 text-blue-500" />
-                <span>Water: {quantities.water.toFixed(1)}{unit}</span>
+                <span>
+                  Water: {quantities.water.toFixed(1)}
+                  {unit}
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <Milk className="w-5 h-5 text-gray-500" />
-                <span>Milk: {quantities.milk.toFixed(1)}{unit}</span>
+                <span>
+                  Milk: {quantities.milk.toFixed(1)}
+                  {unit}
+                </span>
               </div>
             </div>
           </div>
