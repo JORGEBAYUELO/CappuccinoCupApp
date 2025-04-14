@@ -1,5 +1,5 @@
 # React Cappuccino App CI/CD Pipeline - AWS Docker Deployment
-
+![[react-app.png]]
 This repository documents the full CI/CD pipeline implementation of my React-based Cappuccino application using GitHub Actions, Docker, and AWS EC2. The focus of this project is to demonstrate a hands-on, automated DevOps workflow.
 
 ## 📦 Project Overview
